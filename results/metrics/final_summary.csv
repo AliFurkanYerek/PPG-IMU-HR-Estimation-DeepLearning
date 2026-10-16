@@ -1,3 +1,3 @@
 Task,Final_Model,Primary_Metric,Primary_Value,Secondary_Metric,Secondary_Value
 Heart-rate regression,CNN + BiGRU PPG + IMU,MAE_BPM,3.8646520327215326,R2,0.9303842902523003
-Activity classification,IMU 1D CNN,Accuracy,0.8664383561643836,Macro_F1,0.8492332901218443
+Activity classification,IMU 1D CNN,Accuracy,0.8835616438356164,Macro_F1,0.8825779222417878
