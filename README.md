@@ -617,6 +617,32 @@ $$z=\frac{x-\mu_{\mathrm{train}}}{\sigma_{\mathrm{train}}}$$
 
 ![Walking — Chest Strap vs CNN + BiGRU](results/figures/cnn_bigru_actual_vs_predicted_walking.png)
 
+## Investigation of Unusual HR Predictions
+
+The overall test prediction chart shows two sudden downward prediction spikes near **test indices 140 and 237**. To investigate them, we used the saved CNN + BiGRU predictions and matched the test windows to the original PPG, 3-axis accelerometer, and chest-strap recordings. We compared each unusual prediction with the immediately preceding window **from the same recording session**. This analysis is diagnostic; the figures do not establish a unique physical cause.
+
+### Sitting — Test 139 vs Test 140
+
+![PPG and ACC comparison: Sitting test windows 139 and 140](results/figures/outlier_sitting_test_139_vs_140.png)
+
+**Observed result:** At test index **139**, the model's absolute HR error was **1.94 BPM**. At index **140** (`Sitting_01`, window 254), the chest strap measured **70.28 BPM**, while CNN + BiGRU predicted **53.24 BPM** (**17.03 BPM absolute error**). The raw PPG baseline in window 140 falls from roughly 5,000 to 2,500 raw units, substantially more than in the previous window. The acceleration magnitude changes by a much smaller relative amount.
+
+**Interpretation:** The unusual prediction coincides with a strong PPG baseline change. A change in optical sensor contact, sensor positioning, or signal characteristics is possible, but cannot be confirmed from the available data. The acceleration plot does not support describing this event simply as unusually strong wrist movement. Index 140 is the final test window of `Sitting_01`; the following plotted index belongs to a different sitting recording session, so the full-test curve should not be interpreted as one continuous physical recording.
+
+### Walking — Test 236 vs Test 237
+
+![PPG and ACC comparison: Walking test windows 236 and 237](results/figures/outlier_walking_test_236_vs_237.png)
+
+**Observed result:** The model's absolute HR error at test index **236** was **3.49 BPM**. At index **237** (`Walking_01`, window 180), the chest strap measured **105.13 BPM** while the model predicted **57.34 BPM** (**47.79 BPM absolute error**). Both windows contain repeated walking-related acceleration patterns. However, the PPG signal in window 237 shows much larger baseline shifts and abrupt changes (approximately −2,500 to +7,000 raw units), compared with the preceding window.
+
+**Interpretation:** This large error coincides with a pronounced change in the raw PPG waveform. Motion-related optical artifacts or a change in sensor contact are plausible explanations, but the acceleration magnitude alone does not prove the cause. The preceding window also contains some PPG variation while retaining low prediction error, suggesting that the type and extent of waveform distortion, not merely the presence of movement, may matter.
+
+### What can and cannot be concluded
+
+These two examples support the hypothesis that **unusual PPG signal characteristics are associated with some of the largest CNN + BiGRU prediction errors**. The original window-matching timing errors were below the project's **100 ms tolerance** in inspected examples, but this does not independently prove perfect synchronization between the wearable and the chest strap. The figures cannot identify a definite cause or prove causality. Additional tests (e.g., PPG signal-quality metrics, contact checks, and more independent recordings) would be needed.
+
+---
+
 ## Detailed Activity Classification Results
 
 The selected **IMU-only 1D CNN** classified **258 of 292** test windows correctly (**88.36%** overall accuracy). The following class-level scores provide a more complete picture than overall accuracy alone.
