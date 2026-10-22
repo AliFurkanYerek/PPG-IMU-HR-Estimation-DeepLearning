@@ -35,8 +35,6 @@ The **BLE chest strap** is used as the independent reference source for heart ra
 
 ---
 
----
-
 ## Key Results
 
 ### Heart-Rate Estimation
@@ -68,8 +66,6 @@ The main classification difficulty was distinguishing **High Tempo Cycling** fro
 
 ---
 
----
-
 ## Sensors and Data
 
 ### Wearable Device
@@ -98,8 +94,6 @@ For HR regression, **chest-strap-derived HR** is used as the ground-truth target
 
 ---
 
----
-
 ## Activities
 
 The dataset contains six activity classes:| Activity | Description |
@@ -112,8 +106,6 @@ The dataset contains six activity classes:| Activity | Description |
 | Walking | Repetitive locomotion |
 
 Some activities contain multiple recording sessions. Session boundaries are preserved during preprocessing.
-
----
 
 ---
 
@@ -303,8 +295,6 @@ Here $x$ is an input-channel value, and $\mu_{\mathrm{train}}$ and $\sigma_{\mat
 ## Why an 8-Second Window?
 
 Eight seconds was selected to give the models a fixed-length segment that contains multiple PPG pulse patterns and some motion context, while remaining short enough for window-level analysis. Each window is represented by 320 positions, using the nearest existing timestamped rows and without value interpolation. **This was a design decision; the project did not compare alternative window lengths systematically, so eight seconds is not claimed to be optimal.**
-
----
 
 ---
 
@@ -617,32 +607,6 @@ $$z=\frac{x-\mu_{\mathrm{train}}}{\sigma_{\mathrm{train}}}$$
 
 ![Walking — Chest Strap vs CNN + BiGRU](results/figures/cnn_bigru_actual_vs_predicted_walking.png)
 
-## Investigation of Unusual HR Predictions
-
-The overall test prediction chart shows two sudden downward prediction spikes near **test indices 140 and 237**. To investigate them, we used the saved CNN + BiGRU predictions and matched the test windows to the original PPG, 3-axis accelerometer, and chest-strap recordings. We compared each unusual prediction with the immediately preceding window **from the same recording session**. This analysis is diagnostic; the figures do not establish a unique physical cause.
-
-### Sitting — Test 139 vs Test 140
-
-![PPG and ACC comparison: Sitting test windows 139 and 140](results/figures/outlier_sitting_test_139_vs_140.png)
-
-**Observed result:** At test index **139**, the model's absolute HR error was **1.94 BPM**. At index **140** (`Sitting_01`, window 254), the chest strap measured **70.28 BPM**, while CNN + BiGRU predicted **53.24 BPM** (**17.03 BPM absolute error**). The raw PPG baseline in window 140 falls from roughly 5,000 to 2,500 raw units, substantially more than in the previous window. The acceleration magnitude changes by a much smaller relative amount.
-
-**Interpretation:** The unusual prediction coincides with a strong PPG baseline change. A change in optical sensor contact, sensor positioning, or signal characteristics is possible, but cannot be confirmed from the available data. The acceleration plot does not support describing this event simply as unusually strong wrist movement. Index 140 is the final test window of `Sitting_01`; the following plotted index belongs to a different sitting recording session, so the full-test curve should not be interpreted as one continuous physical recording.
-
-### Walking — Test 236 vs Test 237
-
-![PPG and ACC comparison: Walking test windows 236 and 237](results/figures/outlier_walking_test_236_vs_237.png)
-
-**Observed result:** The model's absolute HR error at test index **236** was **3.49 BPM**. At index **237** (`Walking_01`, window 180), the chest strap measured **105.13 BPM** while the model predicted **57.34 BPM** (**47.79 BPM absolute error**). Both windows contain repeated walking-related acceleration patterns. However, the PPG signal in window 237 shows much larger baseline shifts and abrupt changes (approximately −2,500 to +7,000 raw units), compared with the preceding window.
-
-**Interpretation:** This large error coincides with a pronounced change in the raw PPG waveform. Motion-related optical artifacts or a change in sensor contact are plausible explanations, but the acceleration magnitude alone does not prove the cause. The preceding window also contains some PPG variation while retaining low prediction error, suggesting that the type and extent of waveform distortion, not merely the presence of movement, may matter.
-
-### What can and cannot be concluded
-
-These two examples support the hypothesis that **unusual PPG signal characteristics are associated with some of the largest CNN + BiGRU prediction errors**. The original window-matching timing errors were below the project's **100 ms tolerance** in inspected examples, but this does not independently prove perfect synchronization between the wearable and the chest strap. The figures cannot identify a definite cause or prove causality. Additional tests (e.g., PPG signal-quality metrics, contact checks, and more independent recordings) would be needed.
-
----
-
 ## Detailed Activity Classification Results
 
 The selected **IMU-only 1D CNN** classified **258 of 292** test windows correctly (**88.36%** overall accuracy). The following class-level scores provide a more complete picture than overall accuracy alone.
@@ -666,13 +630,39 @@ $$F_1=\frac{2\cdot\mathrm{Precision}\cdot\mathrm{Recall}}{\mathrm{Precision}+\ma
 
 ---
 
+## Outlier Analysis — CNN + BiGRU Heart-Rate Predictions
+
+### Full Test-Set Prediction Graph
+
+![HR test predictions](results/figures/hr_test_predictions.png)
+
+### Analysis of Two Unusual Prediction Points
+
+The overall test prediction chart shows two sudden downward prediction spikes near **test indices 140 and 237**. To investigate them, we used the saved CNN + BiGRU predictions and matched the test windows to the original PPG, 3-axis accelerometer, and chest-strap recordings. We compared each unusual prediction with the immediately preceding window **from the same recording session**. This analysis is diagnostic; the figures do not establish a unique physical cause.
+
+#### Sitting — Test 139 vs Test 140
+
+![PPG and ACC comparison: Sitting test windows 139 and 140](results/figures/outlier_sitting_test_139_vs_140.png)
+
+**Observed result:** At test index **139**, the model's absolute HR error was **1.94 BPM**. At index **140** (`Sitting_01`, window 254), the chest strap measured **70.28 BPM**, while CNN + BiGRU predicted **53.24 BPM** (**17.03 BPM absolute error**). The raw PPG baseline in window 140 falls from roughly 5,000 to 2,500 raw units, substantially more than in the previous window. The acceleration magnitude changes by a much smaller relative amount.
+
+**Interpretation:** The unusual prediction coincides with a strong PPG baseline change. A change in optical sensor contact, sensor positioning, or signal characteristics is possible, but cannot be confirmed from the available data. The acceleration plot does not support describing this event simply as unusually strong wrist movement. Index 140 is the final test window of `Sitting_01`; the following plotted index belongs to a different sitting recording session, so the full-test curve should not be interpreted as one continuous physical recording.
+
+#### Walking — Test 236 vs Test 237
+
+![PPG and ACC comparison: Walking test windows 236 and 237](results/figures/outlier_walking_test_236_vs_237.png)
+
+**Observed result:** The model's absolute HR error at test index **236** was **3.49 BPM**. At index **237** (`Walking_01`, window 180), the chest strap measured **105.13 BPM** while the model predicted **57.34 BPM** (**47.79 BPM absolute error**). Both windows contain repeated walking-related acceleration patterns. However, the PPG signal in window 237 shows much larger baseline shifts and abrupt changes (approximately −2,500 to +7,000 raw units), compared with the preceding window.
+
+**Interpretation:** This large error coincides with a pronounced change in the raw PPG waveform. Motion-related optical artifacts or a change in sensor contact are plausible explanations, but the acceleration magnitude alone does not prove the cause. The preceding window also contains some PPG variation while retaining low prediction error, suggesting that the type and extent of waveform distortion, not merely the presence of movement, may matter.
+
+#### What can and cannot be concluded
+
+These two examples support the hypothesis that **unusual PPG signal characteristics are associated with some of the largest CNN + BiGRU prediction errors**. The original window-matching timing errors were below the project's **100 ms tolerance** in inspected examples, but this does not independently prove perfect synchronization between the wearable and the chest strap. The figures cannot identify a definite cause or prove causality. Additional tests (e.g., PPG signal-quality metrics, contact checks, and more independent recordings) would be needed.
+
 ---
 
 ## Final Result Visuals
-
-### HR Prediction on the Test Set
-
-![HR test predictions](results/figures/hr_test_predictions.png)
 
 ### Predicted vs True Heart Rate
 
@@ -681,8 +671,6 @@ $$F_1=\frac{2\cdot\mathrm{Precision}\cdot\mathrm{Recall}}{\mathrm{Precision}+\ma
 ### Activity Classification Confusion Matrix
 
 ![Activity confusion matrix](results/figures/activity_confusion_matrix.png)
-
----
 
 ---
 
@@ -710,8 +698,6 @@ Metrics:
 - Weighted F1
 - Per-class precision / recall / F1
 - Confusion matrix
-
----
 
 ---
 
@@ -758,8 +744,6 @@ PPG-IMU-HR-Estimation-DeepLearning/
 
 ---
 
----
-
 ## Notebook Workflow
 
 | Notebook | Purpose |
@@ -774,8 +758,6 @@ PPG-IMU-HR-Estimation-DeepLearning/
 | `08_activity_cnn_bigru.ipynb` | CNN + BiGRU classifier comparison |
 | `09_final_training_and_export.ipynb` | Final model training and export |
 | `10_detailed_model_evaluation.ipynb` | Per-activity regression comparison charts |
-
----
 
 ---
 
@@ -809,8 +791,6 @@ results/
 
 ---
 
----
-
 ## Installation
 
 Python **3.10** is recommended.
@@ -840,8 +820,6 @@ pip install -r requirements.txt
 
 ---
 
----
-
 ## Running the Project
 
 1. Place the raw `.xlsx` recordings in the corresponding `data/raw/` activity folders.
@@ -849,8 +827,6 @@ pip install -r requirements.txt
 3. Select the project's Python virtual environment.
 4. Run the notebooks in numerical order.
 5. Run `09_final_training_and_export.ipynb` to generate the final models, metrics and figures.
-
----
 
 ---
 
@@ -863,8 +839,6 @@ pip install -r requirements.txt
 - Strong overall HR-regression performance does not always correspond to strong within-activity HR tracking.
 - The chronological split evaluates later portions of the available recordings and should not be interpreted as subject-independent external validation.
 - Additional subjects and independent sessions would be required for stronger generalization claims.
-
----
 
 ---
 
@@ -883,8 +857,6 @@ Possible extensions include:
 
 ---
 
----
-
 ## Project Context
 
 Developed during an **Erasmus traineeship at Hanze University of Applied Sciences, Groningen, the Netherlands**.
@@ -897,8 +869,6 @@ The project focuses on:
 - IMU-based motion information
 - multimodal sensor fusion
 - Deep Learning for heart-rate estimation
-
----
 
 ---
 
