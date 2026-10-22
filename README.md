@@ -66,6 +66,165 @@ The main classification difficulty was distinguishing **High Tempo Cycling** fro
 
 ---
 
+## Detailed Per-Activity HR Analysis (Added Results)
+
+The results below compare four HR estimation models on the six recorded activities. The reference is the **BLE chest strap**. **Within ±5 BPM** and **Within ±10 BPM** describe how many predictions fall inside an error tolerance; they are **not classification accuracy**. Every percentage is calculated using the number of test windows shown for that activity.
+
+### Four-model MAE comparison
+
+| Activity | Test windows | PPG-only CNN | Early Fusion CNN | Two-Branch CNN | CNN + BiGRU |
+|---|---:|---:|---:|---:|---:|
+| Eating | 8 | 14.27 | 8.89 | 10.13 | 5.23 |
+| High Tempo Cycling | 38 | 12.67 | 9.25 | 9.23 | 8.63 |
+| Low Tempo Cycling | 56 | 10.60 | 5.34 | 5.09 | 4.35 |
+| Sitting | 43 | 9.28 | 3.86 | 3.49 | 3.96 |
+| Sleep | 73 | 13.27 | 3.71 | 1.35 | 1.46 |
+| Walking | 74 | 5.22 | 3.90 | 3.71 | 3.22 |
+
+![Four-model MAE comparison by activity](results/figures/hr_four_models_per_activity_mae.png)
+
+### How the metrics were calculated
+
+For ground-truth chest strap HR $y_i$, predicted HR $\hat{y}_i$, $N$ windows, and reference mean $\bar{y}$:
+
+**Mean Absolute Error (MAE):**
+
+$$\mathrm{MAE}=\frac{1}{N}\sum_{i=1}^{N}|y_i-\hat{y}_i|$$
+
+**Root Mean Squared Error (RMSE):**
+
+$$\mathrm{RMSE}=\sqrt{\frac{1}{N}\sum_{i=1}^{N}(y_i-\hat{y}_i)^2}$$
+
+**Coefficient of determination (R²):**
+
+$$R^2=1-\frac{\sum_i(y_i-\hat{y}_i)^2}{\sum_i(y_i-\bar{y})^2}$$
+
+**Percentage of predictions within a tolerance of $t$ BPM:**
+
+$$P_{\pm t}=\frac{100}{N}\sum_{i=1}^{N}\mathbf{1}(|y_i-\hat{y}_i|\leq t)$$
+
+We use $t=5$ and $t=10$ BPM. Pearson correlation is also reported, because it measures linear association rather than absolute prediction error.
+
+**Normalization:** Model input channels are standardized with statistics calculated only on the training data:
+
+$$z=\frac{x-\mu_{\mathrm{train}}}{\sigma_{\mathrm{train}}}$$
+
+### Activity-by-activity comparison
+
+#### Eating (n=8)
+
+| Model | MAE (BPM) | Within ±5 BPM | Within ±10 BPM |
+|---|---:|---:|---:|
+| PPG-only CNN | 14.27 | 50.00% | 62.50% |
+| Early Fusion CNN | 8.89 | 25.00% | 75.00% |
+| Two-Branch CNN | 10.13 | 50.00% | 62.50% |
+| CNN + BiGRU | 5.23 | 50.00% | 100.00% |
+
+![Chest Strap vs Two-Branch CNN — Eating](results/figures/two_branch_actual_vs_predicted_eating.png)
+
+<!-- Additional Chest Strap vs prediction PNGs for Eating should be embedded here after verifying that their files are uploaded under results/figures/. Suggested filenames: ppg_only_actual_vs_predicted_eating.png, early_fusion_actual_vs_predicted_eating.png, two_branch_actual_vs_predicted_eating.png, cnn_bigru_actual_vs_predicted_eating.png. -->
+
+#### High Tempo Cycling (n=38)
+
+| Model | MAE (BPM) | Within ±5 BPM | Within ±10 BPM |
+|---|---:|---:|---:|
+| PPG-only CNN | 12.67 | 28.95% | 52.63% |
+| Early Fusion CNN | 9.25 | 23.68% | 63.16% |
+| Two-Branch CNN | 9.23 | 34.21% | 63.16% |
+| CNN + BiGRU | 8.63 | 31.58% | 73.68% |
+
+<!-- Additional Chest Strap vs prediction PNGs for High Tempo Cycling should be embedded here after verifying that their files are uploaded under results/figures/. Suggested filenames: ppg_only_actual_vs_predicted_high_tempo_cycling.png, early_fusion_actual_vs_predicted_high_tempo_cycling.png, two_branch_actual_vs_predicted_high_tempo_cycling.png, cnn_bigru_actual_vs_predicted_high_tempo_cycling.png. -->
+
+#### Low Tempo Cycling (n=56)
+
+| Model | MAE (BPM) | Within ±5 BPM | Within ±10 BPM |
+|---|---:|---:|---:|
+| PPG-only CNN | 10.60 | 30.36% | 44.64% |
+| Early Fusion CNN | 5.34 | 46.43% | 87.50% |
+| Two-Branch CNN | 5.09 | 62.50% | 85.71% |
+| CNN + BiGRU | 4.35 | 58.93% | 96.43% |
+
+<!-- Additional Chest Strap vs prediction PNGs for Low Tempo Cycling should be embedded here after verifying that their files are uploaded under results/figures/. Suggested filenames: ppg_only_actual_vs_predicted_low_tempo_cycling.png, early_fusion_actual_vs_predicted_low_tempo_cycling.png, two_branch_actual_vs_predicted_low_tempo_cycling.png, cnn_bigru_actual_vs_predicted_low_tempo_cycling.png. -->
+
+#### Sitting (n=43)
+
+| Model | MAE (BPM) | Within ±5 BPM | Within ±10 BPM |
+|---|---:|---:|---:|
+| PPG-only CNN | 9.28 | 32.56% | 60.47% |
+| Early Fusion CNN | 3.86 | 76.74% | 93.02% |
+| Two-Branch CNN | 3.49 | 76.74% | 95.35% |
+| CNN + BiGRU | 3.96 | 81.40% | 95.35% |
+
+<!-- Additional Chest Strap vs prediction PNGs for Sitting should be embedded here after verifying that their files are uploaded under results/figures/. Suggested filenames: ppg_only_actual_vs_predicted_sitting.png, early_fusion_actual_vs_predicted_sitting.png, two_branch_actual_vs_predicted_sitting.png, cnn_bigru_actual_vs_predicted_sitting.png. -->
+
+#### Sleep (n=73)
+
+| Model | MAE (BPM) | Within ±5 BPM | Within ±10 BPM |
+|---|---:|---:|---:|
+| PPG-only CNN | 13.27 | 2.74% | 24.66% |
+| Early Fusion CNN | 3.71 | 75.34% | 100.00% |
+| Two-Branch CNN | 1.35 | 100.00% | 100.00% |
+| CNN + BiGRU | 1.46 | 100.00% | 100.00% |
+
+<!-- Additional Chest Strap vs prediction PNGs for Sleep should be embedded here after verifying that their files are uploaded under results/figures/. Suggested filenames: ppg_only_actual_vs_predicted_sleep.png, early_fusion_actual_vs_predicted_sleep.png, two_branch_actual_vs_predicted_sleep.png, cnn_bigru_actual_vs_predicted_sleep.png. -->
+
+#### Walking (n=74)
+
+| Model | MAE (BPM) | Within ±5 BPM | Within ±10 BPM |
+|---|---:|---:|---:|
+| PPG-only CNN | 5.22 | 56.76% | 89.19% |
+| Early Fusion CNN | 3.90 | 81.08% | 94.59% |
+| Two-Branch CNN | 3.71 | 81.08% | 94.59% |
+| CNN + BiGRU | 3.22 | 86.49% | 95.95% |
+
+<!-- Additional Chest Strap vs prediction PNGs for Walking should be embedded here after verifying that their files are uploaded under results/figures/. Suggested filenames: ppg_only_actual_vs_predicted_walking.png, early_fusion_actual_vs_predicted_walking.png, two_branch_actual_vs_predicted_walking.png, cnn_bigru_actual_vs_predicted_walking.png. -->
+
+### Interpretation of regression results
+
+- **CNN + BiGRU** achieves the lowest overall MAE (**3.865 BPM**), but is not the best on every individual activity.
+- **Two-Branch CNN** has the lowest MAE in **Sitting (3.49 BPM)** and **Sleep (1.35 BPM)**.
+- **High Tempo Cycling** remains challenging. The final model's MAE is **8.63 BPM**, and low within-activity correlation suggests it does not follow all short-term HR changes accurately.
+- **Eating** has only **eight test windows**, so percentage scores for this activity should not be overinterpreted.
+- In activities with a narrow range of true HR, **R² can be negative even when MAE is small**. Compare MAE, R², correlation and the plots together.
+- The overall activity-mean diagnostic baseline reaches **4.316 BPM MAE**. This makes it important to check whether the HR models are following changes within activities, instead of only learning broad differences between activities.
+
+### Chest Strap plots and unexplained errors
+
+Each individual model notebook (03–06) generates actual-versus-predicted HR plots for each activity. Some points have large prediction errors. **Their causes have not been verified yet**. Possible factors for later testing include PPG signal quality, motion effects, timestamp matching or a model error. A plotted test-window index is not necessarily continuous elapsed time.
+
+Only plot paths confirmed to exist in the repository are embedded here. Additional images can be inserted under their corresponding activity headings once uploaded, without changing the numerical results.
+
+---
+
+## Detailed Activity Classification Results (Added Results)
+
+The selected **IMU-only 1D CNN** classified **258 of 292** test windows correctly (**88.36%** overall accuracy). The following class-level scores provide a more complete picture than overall accuracy alone.
+
+| Activity | Test windows | Precision | Recall / classwise correct rate | F1 |
+|---|---:|---:|---:|---:|
+| Eating | 8 | 1.000 | 100.00% | 1.000 |
+| High Tempo Cycling | 38 | 0.600 | 78.95% | 0.682 |
+| Low Tempo Cycling | 56 | 0.818 | 64.29% | 0.720 |
+| Sitting | 43 | 0.952 | 93.02% | 0.941 |
+| Sleep | 73 | 0.973 | 100.00% | 0.986 |
+| Walking | 74 | 0.973 | 95.95% | 0.966 |
+
+Here, per-class correct rate is **recall** rather than the model's overall accuracy. For classification:
+
+$$\mathrm{Precision}=\frac{TP}{TP+FP},\qquad \mathrm{Recall}=\frac{TP}{TP+FN}$$
+
+$$F_1=\frac{2\cdot\mathrm{Precision}\cdot\mathrm{Recall}}{\mathrm{Precision}+\mathrm{Recall}}$$
+
+**Macro F1** is the average of the six class-level F1 scores. The CNN + BiGRU activity classifier achieved **88.01%** overall accuracy and **0.8637** Macro F1, slightly below the selected 1D CNN. Its class-by-class precision/recall/F1 comparison should be added after those outputs are checked.
+
+---
+
+## Why an 8-Second Window? (Additional Explanation)
+
+Eight seconds was selected to give the models a fixed-length segment that contains multiple PPG pulse patterns and some motion context, while remaining short enough for window-level analysis. Each window is represented by 320 positions, using the nearest existing timestamped rows and without value interpolation. **This was a design decision; the project did not compare alternative window lengths systematically, so eight seconds is not claimed to be optimal.**
+
+---
+
 ## Final Result Visuals
 
 ### HR Prediction on the Test Set
@@ -146,6 +305,22 @@ Each model sample represents an exact **8-second interval** based on `Timestamp_
 
 Windows exceeding the timing-error threshold are rejected.
 
+### Timestamp Grid and the Meaning of 320 Points (Added Explanation)
+
+We first divide each recording session into time windows of **8 seconds (8,000 ms)**. For each window, the input representation has **320 target time positions**, spaced by:
+
+$$\Delta t = \frac{8\text{ seconds}}{320} = 0.025\text{ seconds} = 25\text{ ms}.$$
+
+For a window beginning at timestamp $t_0$, the target positions can be written as:
+
+$$t_k = t_0 + 25k\text{ ms}, \qquad k=0,1,\ldots,319.$$
+
+For each target position $t_k$, we select the **existing recorded row whose timestamp is closest** to it. The nearest row is accepted only if the timing difference is at most **100 ms**. Otherwise, the window is rejected by the preprocessing quality rule. We do **not** create new signal values by linear interpolation, and we do **not** remove repeated values. As a result, a recorded sample may be selected for more than one target position.
+
+**Important:** The 25 ms interval is the spacing of our **model input representation**. It **does not prove** that the original sensor was physically sampled at exactly 40 Hz. Raw timestamps and actual sensor update behavior are separate from our chosen fixed-length representation.
+
+This approach gives each CNN or CNN + BiGRU model the same time dimension. An 8-second segment is long enough to contain several heartbeats and a short period of movement, but still gives a local prediction instead of one prediction for an entire long recording. **We did not test multiple window lengths**, so the choice should not be described as experimentally optimal.
+
 ### Dataset Split
 
 Splitting is chronological within each recording session:
@@ -165,11 +340,27 @@ Final usable windows:
 | Test | 292 |
 | **Total** | **1895** |
 
+### Why We Used a Chronological 70/15/15 Split (Added Explanation)
+
+The order of sensor windows matters because nearby windows in a recording can have similar heart rate, movement, and signal conditions. If all windows were randomly mixed before splitting, training and test examples could come from very close times. This could produce an overly optimistic evaluation.
+
+Instead, for **each recording session**, we keep its chronological order and use approximately the first **70%** for training, the next **15%** for validation, and the last **15%** for testing. The final totals are **1,322 training**, **281 validation**, and **292 test** windows. The training set is used to learn weights, the validation set helps us monitor training and choose settings, and the test set is kept for final reporting.
+
+This design reduces temporal mixing, but **it does not mean that test data comes from entirely new people or independent recording sessions**. Our results should be interpreted as performance on held-out later parts of the available sessions, not proof of subject-independent generalization.
+
 ### Normalization
 
 Normalization parameters are computed **only from the training set**.
 
 The same training statistics are then applied to validation and test inputs.
+
+### Why Normalization Uses Training Data Only (Added Explanation)
+
+PPG and the three accelerometer channels have different numerical ranges. If we directly train on these raw scales, channels with larger numbers may influence optimization differently. Standardization puts the input channels on a more comparable scale:
+
+$$z = \frac{x - \mu_{\mathrm{train}}}{\sigma_{\mathrm{train}}}.$$
+
+Here $x$ is an input-channel value, and $\mu_{\mathrm{train}}$ and $\sigma_{\mathrm{train}}$ are the mean and standard deviation calculated **only from the training data** for that channel. Validation and test windows use those *same* training-set values. We do **not** calculate new normalization statistics from validation or test data, because doing so would reveal information about the evaluation data during model preparation (**data leakage**).
 
 ---
 
@@ -243,6 +434,23 @@ ACC_X + ACC_Y + ACC_Z
 ```
 
 ---
+
+### Why We Compared Four HR Architectures (Added Explanation)
+
+All four models predict a **continuous heart-rate value in BPM**, using the same test split. Their main difference is **when and how the PPG and accelerometer information is combined**:
+
+| Model | Input | How it works | Why we tested it |
+|---|---|---|---|
+| **PPG-only 1D CNN** | PPG only, 320 × 1 | Convolutional layers learn short local PPG patterns; a regression output predicts HR. | Establish a baseline without motion information. |
+| **Early Fusion 1D CNN** | PPG + ACC X/Y/Z, 320 × 4 | All four channels enter one CNN together. | Check whether adding motion signals improves PPG-only prediction. |
+| **Two-Branch CNN** | Separate PPG and three-channel ACC inputs | One CNN branch learns PPG features, another learns motion features; their outputs are combined for HR prediction. | Allow each sensor type to have its own feature extraction before fusion. |
+| **CNN + BiGRU Fusion** | Separate PPG and ACC inputs | CNN layers extract local patterns; bidirectional GRU layers learn relationships across positions in the 8-second window; features are then combined. | Test whether modeling additional temporal context improves the two-branch approach. |
+
+**CNN (Convolutional Neural Network)** detects local patterns in a signal. **GRU (Gated Recurrent Unit)** is a recurrent layer that can use information from different parts of a sequence. **BiGRU** processes a sequence in both directions within the available window; it does **not** mean that the system predicts future measurements beyond that window.
+
+**What happened in our tests?** Overall MAE decreased from **10.080 BPM** with PPG-only CNN, to **4.956 BPM** with Early Fusion, **4.248 BPM** with Two-Branch CNN, and **3.865 BPM** with CNN + BiGRU. Thus, adding ACC information improved the overall test results, and CNN + BiGRU had the lowest overall MAE. However, the best overall model was **not** the best on every activity: for example, Two-Branch CNN had a slightly lower MAE for Sitting and Sleep. We therefore report both overall and activity-specific performance.
+
+**Activity classification is a separate task.** In that task, we use only ACC X/Y/Z and classify one of six activities. We compare an IMU-only CNN with an IMU-only CNN + BiGRU. This classification task uses **accuracy, precision, recall, and F1**, while HR regression uses **MAE, RMSE, R², Pearson correlation, and ±5/±10 BPM tolerance rates**.
 
 ## Repository Structure
 
