@@ -459,8 +459,23 @@ $$z=\frac{x-\mu_{\mathrm{train}}}{\sigma_{\mathrm{train}}}$$
 | Two-Branch CNN | 10.13 | 50.00% | 62.50% |
 | CNN + BiGRU | 5.23 | 50.00% | 100.00% |
 
-![Chest strap versus Two-Branch CNN — Eating](results/figures/two_branch_actual_vs_predicted_eating.png)
+**Chest-strap HR versus predictions for each of the four models:**
 
+**PPG-only CNN**
+
+![Eating — Chest Strap vs PPG-only CNN](results/figures/ppg_only_actual_vs_predicted_eating.png)
+
+**Early Fusion CNN**
+
+![Eating — Chest Strap vs Early Fusion CNN](results/figures/early_fusion_actual_vs_predicted_eating.png)
+
+**Two-Branch CNN**
+
+![Eating — Chest Strap vs Two-Branch CNN](results/figures/two_branch_actual_vs_predicted_eating.png)
+
+**CNN + BiGRU**
+
+![Eating — Chest Strap vs CNN + BiGRU](results/figures/cnn_bigru_actual_vs_predicted_eating.png)
 
 
 #### High Tempo Cycling (n=38)
@@ -472,11 +487,23 @@ $$z=\frac{x-\mu_{\mathrm{train}}}{\sigma_{\mathrm{train}}}$$
 | Two-Branch CNN | 9.23 | 34.21% | 63.16% |
 | CNN + BiGRU | 8.63 | 31.58% | 73.68% |
 
+**Chest-strap HR versus predictions for each of the four models:**
 
+**PPG-only CNN**
 
-**Chest-strap HR versus Two-Branch CNN prediction (High Tempo Cycling)**
+![High Tempo Cycling — Chest Strap vs PPG-only CNN](results/figures/ppg_only_actual_vs_predicted_high_tempo_cycling.png)
 
-![Chest strap versus Two-Branch CNN — High Tempo Cycling](results/figures/two_branch_actual_vs_predicted_high_tempo_cycling.png)
+**Early Fusion CNN**
+
+![High Tempo Cycling — Chest Strap vs Early Fusion CNN](results/figures/early_fusion_actual_vs_predicted_high_tempo_cycling.png)
+
+**Two-Branch CNN**
+
+![High Tempo Cycling — Chest Strap vs Two-Branch CNN](results/figures/two_branch_actual_vs_predicted_high_tempo_cycling.png)
+
+**CNN + BiGRU**
+
+![High Tempo Cycling — Chest Strap vs CNN + BiGRU](results/figures/cnn_bigru_actual_vs_predicted_high_tempo_cycling.png)
 
 
 #### Low Tempo Cycling (n=56)
@@ -488,11 +515,23 @@ $$z=\frac{x-\mu_{\mathrm{train}}}{\sigma_{\mathrm{train}}}$$
 | Two-Branch CNN | 5.09 | 62.50% | 85.71% |
 | CNN + BiGRU | 4.35 | 58.93% | 96.43% |
 
+**Chest-strap HR versus predictions for each of the four models:**
 
+**PPG-only CNN**
 
-**Chest-strap HR versus Two-Branch CNN prediction (Low Tempo Cycling)**
+![Low Tempo Cycling — Chest Strap vs PPG-only CNN](results/figures/ppg_only_actual_vs_predicted_low_tempo_cycling.png)
 
-![Chest strap versus Two-Branch CNN — Low Tempo Cycling](results/figures/two_branch_actual_vs_predicted_low_tempo_cycling.png)
+**Early Fusion CNN**
+
+![Low Tempo Cycling — Chest Strap vs Early Fusion CNN](results/figures/early_fusion_actual_vs_predicted_low_tempo_cycling.png)
+
+**Two-Branch CNN**
+
+![Low Tempo Cycling — Chest Strap vs Two-Branch CNN](results/figures/two_branch_actual_vs_predicted_low_tempo_cycling.png)
+
+**CNN + BiGRU**
+
+![Low Tempo Cycling — Chest Strap vs CNN + BiGRU](results/figures/cnn_bigru_actual_vs_predicted_low_tempo_cycling.png)
 
 
 #### Sitting (n=43)
@@ -504,11 +543,23 @@ $$z=\frac{x-\mu_{\mathrm{train}}}{\sigma_{\mathrm{train}}}$$
 | Two-Branch CNN | 3.49 | 76.74% | 95.35% |
 | CNN + BiGRU | 3.96 | 81.40% | 95.35% |
 
+**Chest-strap HR versus predictions for each of the four models:**
 
+**PPG-only CNN**
 
-**Chest-strap HR versus Two-Branch CNN prediction (Sitting)**
+![Sitting — Chest Strap vs PPG-only CNN](results/figures/ppg_only_actual_vs_predicted_sitting.png)
 
-![Chest strap versus Two-Branch CNN — Sitting](results/figures/two_branch_actual_vs_predicted_sitting.png)
+**Early Fusion CNN**
+
+![Sitting — Chest Strap vs Early Fusion CNN](results/figures/early_fusion_actual_vs_predicted_sitting.png)
+
+**Two-Branch CNN**
+
+![Sitting — Chest Strap vs Two-Branch CNN](results/figures/two_branch_actual_vs_predicted_sitting.png)
+
+**CNN + BiGRU**
+
+![Sitting — Chest Strap vs CNN + BiGRU](results/figures/cnn_bigru_actual_vs_predicted_sitting.png)
 
 
 #### Sleep (n=73)
@@ -520,11 +571,23 @@ $$z=\frac{x-\mu_{\mathrm{train}}}{\sigma_{\mathrm{train}}}$$
 | Two-Branch CNN | 1.35 | 100.00% | 100.00% |
 | CNN + BiGRU | 1.46 | 100.00% | 100.00% |
 
+**Chest-strap HR versus predictions for each of the four models:**
 
+**PPG-only CNN**
 
-**Chest-strap HR versus Two-Branch CNN prediction (Sleep)**
+![Sleep — Chest Strap vs PPG-only CNN](results/figures/ppg_only_actual_vs_predicted_sleep.png)
 
-![Chest strap versus Two-Branch CNN — Sleep](results/figures/two_branch_actual_vs_predicted_sleep.png)
+**Early Fusion CNN**
+
+![Sleep — Chest Strap vs Early Fusion CNN](results/figures/early_fusion_actual_vs_predicted_sleep.png)
+
+**Two-Branch CNN**
+
+![Sleep — Chest Strap vs Two-Branch CNN](results/figures/two_branch_actual_vs_predicted_sleep.png)
+
+**CNN + BiGRU**
+
+![Sleep — Chest Strap vs CNN + BiGRU](results/figures/cnn_bigru_actual_vs_predicted_sleep.png)
 
 
 #### Walking (n=74)
@@ -536,40 +599,23 @@ $$z=\frac{x-\mu_{\mathrm{train}}}{\sigma_{\mathrm{train}}}$$
 | Two-Branch CNN | 3.71 | 81.08% | 94.59% |
 | CNN + BiGRU | 3.22 | 86.49% | 95.95% |
 
+**Chest-strap HR versus predictions for each of the four models:**
 
+**PPG-only CNN**
 
-**Chest-strap HR versus Two-Branch CNN prediction (Walking)**
+![Walking — Chest Strap vs PPG-only CNN](results/figures/ppg_only_actual_vs_predicted_walking.png)
 
-![Chest strap versus Two-Branch CNN — Walking](results/figures/two_branch_actual_vs_predicted_walking.png)
+**Early Fusion CNN**
 
-**Additional available prediction comparisons (Walking)**
+![Walking — Chest Strap vs Early Fusion CNN](results/figures/early_fusion_actual_vs_predicted_walking.png)
 
-![Chest strap versus PPG-only CNN — Walking](results/figures/ppg_only_actual_vs_predicted_walking.png)
+**Two-Branch CNN**
 
-![Chest strap versus Early Fusion CNN — Walking](results/figures/early_fusion_actual_vs_predicted_walking.png)
+![Walking — Chest Strap vs Two-Branch CNN](results/figures/two_branch_actual_vs_predicted_walking.png)
 
-![Chest strap versus CNN + BiGRU — Walking](results/figures/cnn_bigru_actual_vs_predicted_walking.png)
+**CNN + BiGRU**
 
-
-
-### Interpretation of regression results
-
-- **CNN + BiGRU** achieves the lowest overall MAE (**3.865 BPM**), but is not the best on every individual activity.
-- **Two-Branch CNN** has the lowest MAE in **Sitting (3.49 BPM)** and **Sleep (1.35 BPM)**.
-- **High Tempo Cycling** remains challenging. The final model's MAE is **8.63 BPM**, and low within-activity correlation suggests it does not follow all short-term HR changes accurately.
-- **Eating** has only **eight test windows**, so percentage scores for this activity should not be overinterpreted.
-- In activities with a narrow range of true HR, **R² can be negative even when MAE is small**. Compare MAE, R², correlation and the plots together.
-- The overall activity-mean diagnostic baseline reaches **4.316 BPM MAE**. This makes it important to check whether the HR models are following changes within activities, instead of only learning broad differences between activities.
-
-### Chest Strap plots and unexplained errors
-
-Each individual model notebook (03–06) generates actual-versus-predicted HR plots for each activity. Some points have large prediction errors. **Their causes have not been verified yet**. Possible factors for later testing include PPG signal quality, motion effects, timestamp matching or a model error. A plotted test-window index is not necessarily continuous elapsed time.
-
-The plots currently linked here are the available GitHub figures: the Two-Branch CNN comparisons for all six activities and the other model comparisons for Walking. Additional existing prediction plots can be linked once exported to the same folder.
-
----
-
----
+![Walking — Chest Strap vs CNN + BiGRU](results/figures/cnn_bigru_actual_vs_predicted_walking.png)
 
 ## Detailed Activity Classification Results (Added Results)
 
