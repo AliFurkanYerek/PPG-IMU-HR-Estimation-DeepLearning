@@ -271,6 +271,108 @@ For HR regression, **chest-strap-derived HR** is used as the ground-truth target
 
 ## Activities
 
+
+## Activity-Level Accelerometer and Chest-Strap Visual Analysis
+
+This section adds the exploratory signal figures from **`01_activity_overview.ipynb`**.
+
+### Why these plots are included
+
+These figures help explain **why IMU information can help heart-rate estimation** and how the six activities differ before any Deep Learning model is trained.
+
+- The **accelerometer movement plot** is based on the **magnitude** of the 3-axis acceleration:
+
+\[
+ACC_{mag}=\sqrt{ACC_X^2 + ACC_Y^2 + ACC_Z^2}
+\]
+
+- This magnitude was used in the **exploratory analysis and visualization** to summarize wrist/body motion in one signal.
+- In the **final HR models**, the IMU information is provided as the three original channels **`ACC_X`**, **`ACC_Y`**, and **`ACC_Z`**. The models do **not** use only `ACC_mag` as input.
+- The chest-strap plots show the **reference HR target** used for model training and evaluation.
+- The representative plots below show the same **0–120 second time range**, so activities can be compared visually.
+
+### Cross-activity comparison plots
+
+#### Chest-strap HR across activities
+
+This figure compares the **mean chest-strap heart rate** of each activity together with its standard deviation.
+
+![Chest-Strap HR Across Activities](results/figures/01_chest_hr_comparison.png)
+
+#### Movement intensity across activities
+
+This figure compares the **mean accelerometer magnitude** of each activity together with its standard deviation.
+
+![Movement Intensity Across Activities](results/figures/01_movement_comparison.png)
+
+### Activity-specific accelerometer and chest-strap plots
+
+Each activity includes:
+
+- **Movement intensity plot:** based on `ACC_mag = sqrt(ACC_X^2 + ACC_Y^2 + ACC_Z^2)`
+- **Chest-strap HR plot:** reference HR values used as the regression target
+
+> Note: repeated identical chest-strap HR values are not plotted as separate points in these representative figures. This makes HR changes easier to read.
+
+### Eating
+
+#### Movement intensity (accelerometer magnitude)
+![Eating ACC magnitude](results/figures/01_acc_eating.png)
+
+#### Chest-strap heart rate
+![Eating chest-strap HR](results/figures/01_chest_eating.png)
+
+### High Tempo Cycling
+
+#### Movement intensity (accelerometer magnitude)
+![High Tempo Cycling ACC magnitude](results/figures/01_acc_high_tempo_cycling.png)
+
+#### Chest-strap heart rate
+![High Tempo Cycling chest-strap HR](results/figures/01_chest_high_tempo_cycling.png)
+
+### Low Tempo Cycling
+
+#### Movement intensity (accelerometer magnitude)
+![Low Tempo Cycling ACC magnitude](results/figures/01_acc_low_tempo_cycling.png)
+
+#### Chest-strap heart rate
+![Low Tempo Cycling chest-strap HR](results/figures/01_chest_low_tempo_cycling.png)
+
+### Sitting
+
+#### Movement intensity (accelerometer magnitude)
+![Sitting ACC magnitude](results/figures/01_acc_sitting.png)
+
+#### Chest-strap heart rate
+![Sitting chest-strap HR](results/figures/01_chest_sitting.png)
+
+### Sleep
+
+#### Movement intensity (accelerometer magnitude)
+![Sleep ACC magnitude](results/figures/01_acc_sleep.png)
+
+#### Chest-strap heart rate
+![Sleep chest-strap HR](results/figures/01_chest_sleep.png)
+
+### Walking
+
+#### Movement intensity (accelerometer magnitude)
+![Walking ACC magnitude](results/figures/01_acc_walking.png)
+
+#### Chest-strap heart rate
+![Walking chest-strap HR](results/figures/01_chest_walking.png)
+
+### Interpretation of these plots
+
+These figures show that the six activities differ not only in **heart-rate level**, but also in **movement intensity**.
+
+- **Sleep** and **Sitting** show relatively low movement.
+- **Walking** and both **Cycling** classes show stronger movement.
+- **High Tempo Cycling** shows high HR together with considerable motion, which helps explain why this activity is challenging for heart-rate prediction.
+- Because PPG is sensitive to motion artifacts, these movement differences provide a practical reason for testing **PPG + IMU fusion models** in addition to a PPG-only baseline.
+
+
+
 The dataset contains six activity classes:
 
 | Activity | Description |
