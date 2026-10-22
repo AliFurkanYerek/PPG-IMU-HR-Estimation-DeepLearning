@@ -237,7 +237,7 @@ Each model sample represents an exact **8-second interval** based on `Timestamp_
 
 Windows exceeding the timing-error threshold are rejected.
 
-### Timestamp Grid and the Meaning of 320 Points (Added Explanation)
+### Timestamp Grid and the Meaning of 320 Points
 
 We first divide each recording session into time windows of **8 seconds (8,000 ms)**. For each window, the input representation has **320 target time positions**, spaced by:
 
@@ -272,7 +272,7 @@ Final usable windows:
 | Test | 292 |
 | **Total** | **1895** |
 
-### Why We Used a Chronological 70/15/15 Split (Added Explanation)
+### Why We Used a Chronological 70/15/15 Split
 
 The order of sensor windows matters because nearby windows in a recording can have similar heart rate, movement, and signal conditions. If all windows were randomly mixed before splitting, training and test examples could come from very close times. This could produce an overly optimistic evaluation.
 
@@ -286,7 +286,7 @@ Normalization parameters are computed **only from the training set**.
 
 The same training statistics are then applied to validation and test inputs.
 
-### Why Normalization Uses Training Data Only (Added Explanation)
+### Why Normalization Uses Training Data Only
 
 PPG and the three accelerometer channels have different numerical ranges. If we directly train on these raw scales, channels with larger numbers may influence optimization differently. Standardization puts the input channels on a more comparable scale:
 
@@ -300,7 +300,7 @@ Here $x$ is an input-channel value, and $\mu_{\mathrm{train}}$ and $\sigma_{\mat
 
 ---
 
-## Why an 8-Second Window? (Additional Explanation)
+## Why an 8-Second Window?
 
 Eight seconds was selected to give the models a fixed-length segment that contains multiple PPG pulse patterns and some motion context, while remaining short enough for window-level analysis. Each window is represented by 320 positions, using the nearest existing timestamped rows and without value interpolation. **This was a design decision; the project did not compare alternative window lengths systematically, so eight seconds is not claimed to be optimal.**
 
@@ -378,7 +378,7 @@ ACC_X + ACC_Y + ACC_Z
 
 ---
 
-### Why We Compared Four HR Architectures (Added Explanation)
+### Why We Compared Four HR Architectures
 
 All four models predict a **continuous heart-rate value in BPM**, using the same test split. Their main difference is **when and how the PPG and accelerometer information is combined**:
 
@@ -397,7 +397,7 @@ All four models predict a **continuous heart-rate value in BPM**, using the same
 
 ---
 
-## Detailed Per-Activity HR Analysis (Added Results)
+## Detailed Per-Activity HR Analysis
 
 The results below compare four HR estimation models on the six recorded activities. The reference is the **BLE chest strap**. **Within ±5 BPM** and **Within ±10 BPM** describe how many predictions fall inside an error tolerance; they are **not classification accuracy**. Every percentage is calculated using the number of test windows shown for that activity.
 
@@ -617,7 +617,7 @@ $$z=\frac{x-\mu_{\mathrm{train}}}{\sigma_{\mathrm{train}}}$$
 
 ![Walking — Chest Strap vs CNN + BiGRU](results/figures/cnn_bigru_actual_vs_predicted_walking.png)
 
-## Detailed Activity Classification Results (Added Results)
+## Detailed Activity Classification Results
 
 The selected **IMU-only 1D CNN** classified **258 of 292** test windows correctly (**88.36%** overall accuracy). The following class-level scores provide a more complete picture than overall accuracy alone.
 
